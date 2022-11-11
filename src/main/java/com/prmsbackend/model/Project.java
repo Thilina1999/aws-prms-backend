@@ -24,11 +24,9 @@ public class Project {
     private int id;
 
     private String projectName;
-
-
-
-    private Date StartDate;
-    private Date EndDate;
+    private Date startDate;
+    private Date endDate;
+    private String userId;
 
 
 }

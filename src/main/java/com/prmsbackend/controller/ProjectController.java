@@ -28,16 +28,26 @@ public class ProjectController {
         return projectRepository.save(project);
     }
 
+
+    @GetMapping("/getProjectByUserId/{UserId}")
+    public List<Project> getProjectbyName(@PathVariable String UserId){
+
+        return projectRepository.findByUserId(UserId);
+
+    }
     @GetMapping("/getProjectById/{id}")
     public ResponseEntity<Project> getProjectbyId(@PathVariable int id){
         Project project = projectRepository.findById(id).orElseThrow(()->new ProjectNotFoundException("Project not exist with id"+id));
         return ResponseEntity.ok(project);
     }
+
     @PutMapping("/updateProject/{id}")
     public  ResponseEntity<Project> updateProject(@PathVariable int id,@RequestBody Project projectDetail){
         Project updateProject=projectRepository.findById(id).orElseThrow(()->new ProjectNotFoundException("Project Not exist with id: " + id));
 
         updateProject.setProjectName(projectDetail.getProjectName());
+        updateProject.setStartDate(projectDetail.getStartDate());
+        updateProject.setEndDate(projectDetail.getEndDate());
 
         projectRepository.save(updateProject);
         return ResponseEntity.ok(updateProject);
@@ -48,6 +58,6 @@ public class ProjectController {
         Project project=projectRepository.findById(id).orElseThrow(()->new ProjectNotFoundException("Project not exist with entered id"+id));
         projectRepository.delete(project);
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
